@@ -176,10 +176,22 @@ def Comparison_animation(original_positions, predicted_positions):
         z_predicted = [0.0] + [predicted_data[i, j, 2] for j in range(predicted_data.shape[1])]
         ax2.plot3D(x_predicted, y_predicted, z_predicted, 'k.-', linewidth=5)
 
+        ax_MSE.scatter(
+            i,
+            np.linalg.norm(original_data[i, original_data.shape[1] - 1, :] - predicted_data[i, original_data.shape[1] - 1, :]),
+            marker='o', s=50, c='b', edgecolor='k', label='MSE'
+        )
+
+        ax_MAE.scatter(
+            i,
+            np.mean(np.abs(original_data[i, original_data.shape[1] - 1, :] - predicted_data[i, original_data.shape[1] - 1, :])),
+            marker='o', s=50, c='b', edgecolor='k', label='MAE'
+        )
+
         ax2.scatter(0.0, 0.0, 0.0, marker='s', c='gray', s=50, edgecolor='k')
 
     robot_actuation_freq = 4.0  # Hz
-    sampling_time = (1 / robot_actuation_freq)*100.0
+    sampling_time = (1 / robot_actuation_freq)*1000.0
     gradient_colors = ["r", "g", "b", "y", "m", "k"]
     original_data = original_positions[:400, :]
     original_data = original_data.reshape(original_data.shape[0], 3, 3)
@@ -187,10 +199,13 @@ def Comparison_animation(original_positions, predicted_positions):
     predicted_data = predicted_data.reshape(predicted_data.shape[0], 3, 3)
 
     fig2 = plt.figure(figsize=(16, 12))
-    gs = GridSpec(1, 1, figure=fig2)
+    gs = GridSpec(6, 2, figure=fig2)
     # Grid for the 3D
-    ax2 = fig2.add_subplot(gs[0], projection='3d')
+    ax2 = fig2.add_subplot(gs[2: , :], projection='3d')
+    ax_MSE = fig2.add_subplot(gs[:2 , 0])
+    ax_MAE = fig2.add_subplot(gs[:2 , 1])
     fig2.tight_layout()
+    fig2.legend()
     ani = animation.FuncAnimation(
         fig2, update_animation,
         interval=sampling_time,
