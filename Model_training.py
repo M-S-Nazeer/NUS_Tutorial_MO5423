@@ -12,7 +12,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-
+tf.config.experimental.enable_tensor_float_32_execution(False)
 
 # ---------------------- Robot Dataset ------------------------ #
 file_data = "data/Pneumatic_ThreeSegments_4Hz.mat"
@@ -33,7 +33,7 @@ data_visualization(positions_data=segment_tip_positions,
                    pressure_data=pneumatic_pressure,
                    Data_Animation=Data_Animation
                    )
-
+breakpoint()
 # Remove the origin frame
 segment_tip_positions = segment_tip_positions[:, 1:, :]
 frames_positions_un = segment_tip_positions.reshape(segment_tip_positions.shape[0], -1)   # flattened --> N x 9

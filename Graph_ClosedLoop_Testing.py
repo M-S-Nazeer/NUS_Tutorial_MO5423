@@ -103,5 +103,5 @@ labels = ['x3', 'y3', 'z3']
 for i in range(6, 9):
     print('R2 score of ' + labels[i - 6] + ' is:\t{}'.format(r2_score(original_frame[:, i], predicted_frame[:, i])))
     print('MAE of ' + labels[i - 6] + 'is:\t{}'.format(mean_absolute_error(original_frame[:, i], predicted_frame[:, i])))
-    print('MSE of ' + labels[i - 6] + 'is:\t{}'.format(mean_squared_error(original_frame[:, i], predicted_frame[:, i])))
+    print('RMSE of ' + labels[i - 6] + 'is:\t{}'.format(np.sqrt(mean_squared_error(original_frame[:, i], predicted_frame[:, i]))))
 

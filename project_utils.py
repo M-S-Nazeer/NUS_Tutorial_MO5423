@@ -176,10 +176,10 @@ def Comparison_animation(original_positions, predicted_positions):
         z_predicted = [0.0] + [predicted_data[i, j, 2] for j in range(predicted_data.shape[1])]
         ax2.plot3D(x_predicted, y_predicted, z_predicted, 'k.-', linewidth=5)
 
-        ax_MSE.scatter(
+        ax_RMSE.scatter(
             i,
-            np.linalg.norm(original_data[i, original_data.shape[1] - 1, :] - predicted_data[i, original_data.shape[1] - 1, :]),
-            marker='o', s=50, c='b', edgecolor='k', label='MSE'
+            np.sqrt(np.linalg.norm(original_data[i, original_data.shape[1] - 1, :] - predicted_data[i, original_data.shape[1] - 1, :])),
+            marker='o', s=50, c='b', edgecolor='k', label='RMSE'
         )
 
         ax_MAE.scatter(
@@ -202,10 +202,11 @@ def Comparison_animation(original_positions, predicted_positions):
     gs = GridSpec(6, 2, figure=fig2)
     # Grid for the 3D
     ax2 = fig2.add_subplot(gs[2: , :], projection='3d')
-    ax_MSE = fig2.add_subplot(gs[:2 , 0])
+    ax_RMSE = fig2.add_subplot(gs[:2 , 0])
     ax_MAE = fig2.add_subplot(gs[:2 , 1])
     fig2.tight_layout()
-    fig2.legend()
+    ax_RMSE.legend(loc='upper left')
+    ax_MAE.legend(loc='upper left')
     ani = animation.FuncAnimation(
         fig2, update_animation,
         interval=sampling_time,
